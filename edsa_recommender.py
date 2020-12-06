@@ -37,6 +37,12 @@ from utils.data_loader import load_movie_titles
 from recommenders.collaborative_based import collab_model
 from recommenders.content_based import content_model
 
+# Pickle dependencies
+import pickle
+
+#Image dependenices
+from PIL import Image
+
 # Data Loading
 title_list = load_movie_titles('resources/data/movies.csv')
 
@@ -45,7 +51,18 @@ def main():
 
     # DO NOT REMOVE the 'Recommender System' option below, however,
     # you are welcome to add more options to enrich your app.
-    page_options = ["Recommender System","Solution Overview"]
+    page_options = ["Recommender System","Solution Overview", "About Us", "Contact Page", "EDA"]
+    st.markdown(
+	"""
+	<style>
+	.sidebar .sidebar-content{
+	background-image: linear-gradient(white, red);
+	font color: white;
+	}
+	</style>
+	""",
+	unsafe_allow_html=True,
+	)
 
     # -------------------------------------------------------------------
     # ----------- !! THIS CODE MUST NOT BE ALTERED !! -------------------
@@ -104,9 +121,42 @@ def main():
         st.title("Solution Overview")
         st.write("Describe your winning approach on this page")
 
+	#About Us page
+    if page_selection == "About Us":
+        st.subheader("TEAM 4 is a group of six members from EDSA comprising of Charles, Chuene, Thabisile, Tumelo, Lesedi and ")
+        st.subheader("Visit our Contact Page and lets get in touch!")
     # You may want to add more sections here for aspects such as an EDA,
     # or to provide your business pitch.
+    
+    #Contact Page 
+    if page_selection == "Contact Page":
+	    st.info("Lets get in touch for all your Machine Learning needs")
+	    firstname = st.text_input("Enter your Name", "Type Here Please...")
+	    lastname = st.text_input("Enter your last Name", "Type Here Please..")
+	    contactdetails = st.text_input("Enter your contact details here", "Type Here Please...")
+	    message = st.text_area("Tell us about your compaby's Data Science needs", "Type here Please..")
+     
+    	if st.button("Submit"):
+            result = message.title()
+            st.success(result)
+   
+   #if page_selection == "EDA":
+       #if st.checkbox(""):
+			#st.subheader("")
+			#st.image('')
+   
+	
+		#if st.checkbox(""):
+			#st.subheader("")
+			#st.image('')
+   
+		#if st.checkbox(""):
+			#st.subheader("")
+			#st.image('')
 
 
+    
+
+# Required to let Streamlit instantiate our web app. 
 if __name__ == '__main__':
-    main()
+	main()
