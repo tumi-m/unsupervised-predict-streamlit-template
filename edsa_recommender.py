@@ -46,20 +46,25 @@ from PIL import Image
 # Data Loading
 title_list = load_movie_titles('resources/data/movies.csv')
 
+#Simple Generic Title Tag function Generator
+st.cache(suppress_st_warning=True,allow_output_mutation=True)
+def title_tag(title):
+    html_temp = """<div style="background-color:{};padding:10px;border-radius:10px; margin-bottom:15px;"><h2 style="color:#00ACEE;text-align:center;">"""+title+"""</h2></div>"""
+    st.markdown(html_temp, unsafe_allow_html=True)
+
+#Simple Subheading style function
+st.cache(suppress_st_warning=True,allow_output_mutation=True)
+def subheading(title):
+    html_temp = """<div style="background-color:{};padding:10px;margin-bottom:10px;"><h3 style="color:#00ACEE;text-align:center;">"""+title+"""</h3></div>"""
+    st.markdown(html_temp, unsafe_allow_html=True)
+
 # App declaration
 def main():
 	 
-	html_temp = """
-	<div style="background-image:#025246 ;padding:5px">
-	</div>
-	"""
-	st.markdown(html_temp, unsafe_allow_html = True)
-	st.markdown('<style>body{background-color: Grey;}</style>',unsafe_allow_html=True)
- 
-   
+
 	# DO NOT REMOVE the 'Recommender System' option below, however,
 	# you are welcome to add more options to enrich your app.
-	page_options = [ "EDA", "Solution Overview", "Recommender System", "About Us", "Contact Page"]
+	page_options = [ "Solution Overview", "EDA", "Recommender System", "About Us"]
 	st.markdown(
 		"""
 		<style>
@@ -78,8 +83,8 @@ def main():
 	page_selection = st.sidebar.selectbox("Choose Option", page_options)
 	if page_selection == "Recommender System":
 		# Header contents
-		st.write('# Movie Recommender Engine')
-		st.write('### EXPLORE Data Science Academy Unsupervised Predict')
+		title_tag('Movie Recommender Engine')
+		subheading('EXPLORE Data Science Academy Unsupervised Predict')
 		st.image('resources/imgs/Image_header.png',use_column_width=True)
 		# Recommender System algorithm selection
 		sys = st.radio("Select an algorithm",
@@ -126,50 +131,31 @@ def main():
 
 	# ------------- SAFE FOR ALTERING/EXTENSION -------------------
 	if page_selection == "Solution Overview":
-		st.title("Solution Overview")
-		st.write("Describe your winning approach on this page")
+		title_tag(page_selection)
+		subheading("Describe your winning approach on this page")
 
 	#About Us page
 	if page_selection == "About Us":
-		st.subheader("TEAM 4 is a group of six members from EDSA comprising of Lesedi, Chuene, Kgomotso, Thabisile, Charles and Tumelo")
-		st.subheader("Visit our Contact Page and lets get in touch!")
-	# You may want to add more sections here for aspects such as an EDA,
-	# or to provide your business pitch.
-	
-	#Contact Page 
-	if page_selection == "Contact Page":
-		st.info("Lets get in touch for all your Machine Learning needs")
-		firstname = st.text_input("Enter your Name", "Type Here Please...")
-		lastname = st.text_input("Enter your last Name", "Type Here Please..")
-		contactdetails = st.text_input("Enter your contact details here", "Type Here Please...")
-		message = st.text_area("Tell us about your company's Data Science needs", "Type here Please..")
+		title_tag("TEAM 4 is a group of six members from EDSA comprising of Lesedi, Chuene, Kgomotso, Thabisile, Charles and Tumelo")
+		subheading("Visit our Contact Page and lets get in touch!")
 
-		if st.button("Submit"):
-			result = message.title()
-			st.success(result)
-   
 	if page_selection == "EDA":
-		if st.checkbox("Film directors"):
-			st.subheader("A count of films by directors")
-			st.image('resources/imgs/director.png')
-   
-	
-		if st.checkbox("Wordcloud"):
-			st.subheader("Most common words")
-			st.image('resources/imgs/wordcloud.png')
-					 
-		if st.checkbox("number of titles per year.png"):
-			st.subheader("Number of movies every year from 1978 to 2015")
-			st.image('resources/imgs/number_of_titles_per_year.png.png')
-			
-			
-		if st.checkbox("Top genres"):
-			st.subheader("Genres with the most number movies")
-			st.image('resources/imgs/Genres.png')
-					 
-		if st.checkbox("Top 15"):
-			st.subheader("The top 15 movies")
-			st.image('resources/imgs/top_15_titles.png')
+		title_tag("Our Exploratory Data Analysis")
+		visual_options = [ "The top 15 movies", "Genres with the most number movies", "A count of films by directors", "Wordcloud"]
+		visual_selection = st.selectbox("Choose Exploratory Data Analaysis Visuas Option", visual_options)
+
+		if visual_selection == "The top 15 movies":
+			subheading('Top 15 movies by number of Ratings')
+			st.image('resources/imgs/top_15_titles.png',use_column_width=True)
+		elif visual_selection == "Genres with the most number movies":
+			subheading('Genres with the most number movies')
+			st.image('resources/imgs/Genres.png',use_column_width=True)
+		elif visual_selection == "A count of films by directors":
+			subheading('A count of films by directors')
+			st.image('resources/imgs/director.png',use_column_width=True)
+		elif visual_selection == "Wordcloud":
+			subheading('Most Popular Movie Keywords')
+			st.image('resources/imgs/wordcloud.png',use_column_width=True)
 
 
 	
