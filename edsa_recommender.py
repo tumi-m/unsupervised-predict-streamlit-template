@@ -46,17 +46,20 @@ from PIL import Image
 # Data Loading
 title_list = load_movie_titles('resources/data/movies.csv')
 
+
+st.markdown('<style>body{background-color: #E5E0E0;}</style>',unsafe_allow_html=True)
+
 #Simple Generic Title Tag function Generator
 st.cache(suppress_st_warning=True,allow_output_mutation=True)
 def title_tag(title):
-    html_temp = """<div style="background-color:{};padding:10px;border-radius:10px; margin-bottom:15px;"><h2 style="color:#00ACEE;text-align:center;">"""+title+"""</h2></div>"""
-    st.markdown(html_temp, unsafe_allow_html=True)
+	html_temp = """<div style="background-color:{};padding:10px;border-radius:10px; margin-bottom:15px;"><h2 style="color:white;text-align:center;">"""+title+"""</h2></div>"""
+	st.markdown(html_temp, unsafe_allow_html=True)
 
 #Simple Subheading style function
 st.cache(suppress_st_warning=True,allow_output_mutation=True)
 def subheading(title):
-    html_temp = """<div style="background-color:{};padding:10px;margin-bottom:10px;"><h3 style="color:#00ACEE;text-align:center;">"""+title+"""</h3></div>"""
-    st.markdown(html_temp, unsafe_allow_html=True)
+	html_temp = """<div style="background-color:{};padding:10px;margin-bottom:10px;"><h3 style="color:white;text-align:center;">"""+title+"""</h3></div>"""
+	st.markdown(html_temp, unsafe_allow_html=True)
 
 # App declaration
 def main():
@@ -64,13 +67,13 @@ def main():
 
 	# DO NOT REMOVE the 'Recommender System' option below, however,
 	# you are welcome to add more options to enrich your app.
-	page_options = [ "Solution Overview", "EDA", "Recommender System", "About Us"]
+	page_options = [ "Solution Overview", "Insights", "Recommender System", "About Us"]
 	st.markdown(
 		"""
 		<style>
 		.sidebar .sidebar-content{
 		background-image: linear-gradient(white, red);
-		font color: white;
+		font-color: white;
 		}
 		</style>
 		""",
@@ -83,8 +86,8 @@ def main():
 	page_selection = st.sidebar.selectbox("Choose Option", page_options)
 	if page_selection == "Recommender System":
 		# Header contents
-		title_tag('Movie Recommender Engine')
-		subheading('EXPLORE Data Science Academy Unsupervised Predict')
+		st.write('# Movie Recommender Engine')
+		st.write('### EXPLORE Data Science Academy Unsupervised Predict')
 		st.image('resources/imgs/Image_header.png',use_column_width=True)
 		# Recommender System algorithm selection
 		sys = st.radio("Select an algorithm",
@@ -131,17 +134,17 @@ def main():
 
 	# ------------- SAFE FOR ALTERING/EXTENSION -------------------
 	if page_selection == "Solution Overview":
-		title_tag(page_selection)
-		subheading("Describe your winning approach on this page")
+		st.title(page_selection)
+		st.subheader("Recommender systems are systems that are designed to recommend things to the user based on many different factors. These systems predict the most likely product that the user is most likely to purchase and are of interest. Companies like Netflix and Amazon use recommender systems to help their users to identify the correct product or movies for them. Recommender systems are an important class of machine learning algorithms that offer relevant suggestions to users. The suggested items are as relevant to the user as possible so that the user can engage with those items: YouTube videos, news articles, online products, movie and series recommendation. Items are ranked according to their relevancy, and the most relevant ones are shown to the user. The relevance is determined by the recommender system, mainly based on historical data. For example, If you've recently watched YouTube videos about elephants, then YouTube is going to start showing you many elephant videos with similar titles and themes. Recommender systems are generally divided into two main categories: collaborative filtering and content-based systems.")
 
 	#About Us page
 	if page_selection == "About Us":
-		title_tag("TEAM 4 is a group of six members from EDSA comprising of Lesedi, Chuene, Kgomotso, Thabisile, Charles and Tumelo")
-		subheading("Visit our Contact Page and lets get in touch!")
+		st.title("TEAM 4 is a group of six members from EDSA comprising of Lesedi, Chuene, Kgomotso, Thabisile, Charles and Tumelo")
+		st.subheader("Visit our Contact Page and lets get in touch!")
 
-	if page_selection == "EDA":
-		title_tag("Our Exploratory Data Analysis")
-		visual_options = [ "The top 15 movies", "Genres with the most number movies", "A count of films by directors", "Wordcloud"]
+	if page_selection == "Insights":
+		#title_tag("Insights extracted from the data")
+		visual_options = [ "The top 15 movies", "Genres with the most number movies", "A count of films by directors", "Top 10 ratings", "Genre distribution", "Wordcloud", "Wordcloud analysis", "Model accuracy"]
 		visual_selection = st.selectbox("Choose Exploratory Data Analaysis Visuas Option", visual_options)
 
 		if visual_selection == "The top 15 movies":
@@ -156,6 +159,18 @@ def main():
 		elif visual_selection == "Wordcloud":
 			subheading('Most Popular Movie Keywords')
 			st.image('resources/imgs/wordcloud.png',use_column_width=True)
+		elif visual_selection == "Top 10 ratings":
+			subheading('Top 10 Movie Ratings')
+			st.image('resources/imgs/top_10_ratings.png',use_column_width=True)
+		elif visual_selection == "Genre distribution":
+			subheading('Number of times a genre appears')
+			st.image('resources/imgs/Genres_2.png',use_column_width=True)
+		elif visual_selection == "Wordcloud analysis":
+			subheading('Most Popular Movie Keywords analysis')
+			st.image('resources/imgs/wordcloud_2.png',use_column_width=True)
+		elif visual_selection == "Model accuracy":
+			subheading('Model accuracy by means of RMSE score')
+			st.image('resources/imgs/model_accuracy.png',use_column_width=True)
 
 
 	
