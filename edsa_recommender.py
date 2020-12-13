@@ -67,7 +67,7 @@ def main():
 
 	# DO NOT REMOVE the 'Recommender System' option below, however,
 	# you are welcome to add more options to enrich your app.
-	page_options = [ "Solution Overview", "Insights", "Recommender System", "About Us"]
+	page_options = ["Home", "Solution Overview", "Insights", "Recommender System", "Why Work With Us?", "About Us", "Contact Us"]
 	st.markdown(
 		"""
 		<style>
@@ -133,15 +133,24 @@ def main():
 	# -------------------------------------------------------------------
 
 	# ------------- SAFE FOR ALTERING/EXTENSION -------------------
+	#Home Page
+	#if page_selection == "Home": 
+	
+	#Solution Overview Page
 	if page_selection == "Solution Overview":
 		st.title(page_selection)
+		st.write('Introduction')
+		html_temp = """
+  					<div style="background-color:{};padding:10px;margin-bottom:10px;">
+  					<h3 style="color:white;text-align:center;></div>"""
+		st.markdown(html_temp, unsafe_allow_html=True)
 		st.subheader("Recommender systems are systems that are designed to recommend things to the user based on many different factors. These systems predict the most likely product that the user is most likely to purchase and are of interest. Companies like Netflix and Amazon use recommender systems to help their users to identify the correct product or movies for them. Recommender systems are an important class of machine learning algorithms that offer relevant suggestions to users. The suggested items are as relevant to the user as possible so that the user can engage with those items: YouTube videos, news articles, online products, movie and series recommendation. Items are ranked according to their relevancy, and the most relevant ones are shown to the user. The relevance is determined by the recommender system, mainly based on historical data. For example, If you've recently watched YouTube videos about elephants, then YouTube is going to start showing you many elephant videos with similar titles and themes. Recommender systems are generally divided into two main categories: collaborative filtering and content-based systems.")
 
 	#About Us page
 	if page_selection == "About Us":
-		st.title("TEAM 4 is a group of six members from EDSA comprising of Lesedi, Chuene, Kgomotso, Thabisile, Charles and Tumelo")
-		st.subheader("Visit our Contact Page and lets get in touch!")
-
+		st.title("TEAM 4 is a group of six members from Explore Data Science Academy")
+		st.image("resources/imgs/team.png",use_column_width=True)
+	
 	if page_selection == "Insights":
 		#title_tag("Insights extracted from the data")
 		visual_options = [ "The top 15 movies", "Genres with the most number movies", "A count of films by directors", "Top 10 ratings", "Genre distribution", "Wordcloud", "Wordcloud analysis", "Model accuracy"]
@@ -171,6 +180,33 @@ def main():
 		elif visual_selection == "Model accuracy":
 			subheading('Model accuracy by means of RMSE score')
 			st.image('resources/imgs/model_accuracy.png',use_column_width=True)
+   
+   
+   #Building out the business pitch
+	if page_selection == "Why Work With Us?":
+		title_about = """
+		<div style="background-color:#464e5f00;padding:10px;border-radius:10px;margin:10px;">
+		<h3 style="color:black;text-align:right;">We are a team of passionate data science students from Explore Data Science Academy.</h3>
+		"""
+   
+   
+		st.markdown(title_about, unsafe_allow_html=True)
+	#Building out the Contact Page
+	if page_selection == "Contact Us":
+		title = """
+		<div style="background-color:#464e5f00;padding:10px;border-radius:10px;margin:10px;">
+		<h3 style="color:black;text-align:right;">Lets get in touch for all your Machine Learning needs!</h3>
+  		"""
+		
+		st.markdown(title, unsafe_allow_html=True)
+		firstname = st.text_input("Enter your Name", "Type Here Please...")
+		lastname = st.text_input("Enter your last Name", "Type Here Please..")
+		contactdetails = st.text_input("Enter your contact details here", "Type Here Please...")
+		message = st.text_area("What is company trying to achieve through data", "Type here Please..")
+  
+		if st.button("Submit"):
+			result = message.title()
+			st.success(result)
 
 
 	
