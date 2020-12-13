@@ -67,7 +67,7 @@ def main():
 
 	# DO NOT REMOVE the 'Recommender System' option below, however,
 	# you are welcome to add more options to enrich your app.
-	page_options =  ["Solution Overview", "Insights", "Recommender System", "Why Work With Us?", "About Us", "Contact Us"]
+	page_options =  ["Solution Overview", "Insights", "Recommender System", "Why Choose Us?", "About Us", "Contact Us"]
 	st.markdown(
 		"""
 		<style>
@@ -143,19 +143,36 @@ def main():
   
 		if overview_selection == "Problem Statement":
 			st.title('Problem Statement')
+			break_h = """
+				<br>
+				<br>
+				"""
+			st.markdown(break_h, unsafe_allow_html=True)
+
 			st.write('Accurately predict unseen movie ratings gathered from thousands of users based on their historic preferences. The objective of this notebook is to construct a recommendation algorithm based on content and collaborative filtering, capable of accurately predicting how a user will rate a movie they have not watched yet based on their historical preference.')
    
    
 		if overview_selection == "Introduction":
 			st.title('Introduction')
+			break_h = """
+				<br>
+				<br>
+				"""
+			st.markdown(break_h, unsafe_allow_html=True)
+
 			st.write('Recommender systems are systems that are designed to recommend things to the user based on many different factors. These systems predict the most likely product that the user is most likely to purchase and are of interest. Companies like Netflix and Amazon use recommender systems to help their users to identify the correct product or movies for them. Recommender systems are an important class of machine learning algorithms that offer relevant suggestions to users. The suggested items are as relevant to the user as possible so that the user can engage with those items: YouTube videos, news articles, online products, movie and series recommendation. Items are ranked according to their relevancy, and the most relevant ones are shown to the user. The relevance is determined by the recommender system, mainly based on historical data. For example, If you have recently watched YouTube videos about elephants, then YouTube is going to start showing you many elephant videos with similar titles and themes. Recommender systems are generally divided into two main categories: collaborative filtering and content-based systems. Both users and service providers have benefited from these kinds of systems. Intelligent algorithms can help viewers find great titles from tens of thousands of options. This notebook will construct a recommendation algorithm based on content and collaborative filtering, capable of accurately predicting how a user will rate a movie they have not yet viewed based on their historic preferences. Providing an accurate and robust solution will have immense economic potential, with users of the system being exposed to content they would like to view or purchase - generating revenue and platform affinity.')
 			
 		if overview_selection == "Conclusion":
 			st.title('Conclusion')
+			break_h = """
+				<br>
+				<br>
+				"""
+			st.markdown(break_h, unsafe_allow_html=True)
+
 
   
 		break_h = """
-				<br>
 				<br>
 				<br>
 				<br>
@@ -206,17 +223,28 @@ def main():
    
    
    #Building out the business pitch
-	if page_selection == "Why Work With Us?":
-		title_about = """
-		<div style="background-color:#464e5f00; padding:10px;border-radius:10px;margin:10px;">
-		<h3 style="color:black;text-align:center;">We are a team of passionate data science students from EDSA.</h3>
-		"""
-   
-		st.markdown(title_about, unsafe_allow_html=True)
+	if page_selection == "Why Choose Us?":
+		st.title("Why Choose Us?")
   
-		st.write("Recommendation engines can mean big business for your organisation!. Estimates are that recommender systems can increase turnover by up to 30%")
+		break_h = """
+				<br>
+				<br>
+				"""
+	
+		st.markdown(break_h, unsafe_allow_html=True)
   
+		st.write("Our team can help your organisation find interesting patterns and inisghts from available data. One such data science project we proud on working on is a recommender system. Recommender systems can mean big business for your organisation. Research shows that recommender systems can increase an organisation's turnover by up to 30%")
+		  
+		break_h = """
+				<br>
+				"""
+	
+		st.markdown(break_h, unsafe_allow_html=True)
   
+		st.image('resources/imgs/data-science.png')
+		
+		
+		
 	#Building out the Contact Page
 	if page_selection == "Contact Us":
 		title = """
