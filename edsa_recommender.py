@@ -150,7 +150,16 @@ def main():
 			st.markdown(break_h, unsafe_allow_html=True)
 
 			st.write('Accurately predict unseen movie ratings gathered from thousands of users based on their historic preferences. The objective of this notebook is to construct a recommendation algorithm based on content and collaborative filtering, capable of accurately predicting how a user will rate a movie they have not watched yet based on their historical preference.')
-   
+			
+			break_h = """
+				<br>
+				<br>
+				<br>
+				"""
+	
+			st.markdown(break_h, unsafe_allow_html=True)
+
+			st.image("resources/imgs/researcjh.png")
    
 		if overview_selection == "Introduction":
 			st.title('Introduction')
@@ -162,6 +171,16 @@ def main():
 
 			st.write('Recommender systems are systems that are designed to recommend things to the user based on many different factors. These systems predict the most likely product that the user is most likely to purchase and are of interest. Companies like Netflix and Amazon use recommender systems to help their users to identify the correct product or movies for them. Recommender systems are an important class of machine learning algorithms that offer relevant suggestions to users. The suggested items are as relevant to the user as possible so that the user can engage with those items: YouTube videos, news articles, online products, movie and series recommendation. Items are ranked according to their relevancy, and the most relevant ones are shown to the user. The relevance is determined by the recommender system, mainly based on historical data. For example, If you have recently watched YouTube videos about elephants, then YouTube is going to start showing you many elephant videos with similar titles and themes. Recommender systems are generally divided into two main categories: collaborative filtering and content-based systems. Both users and service providers have benefited from these kinds of systems. Intelligent algorithms can help viewers find great titles from tens of thousands of options. This notebook will construct a recommendation algorithm based on content and collaborative filtering, capable of accurately predicting how a user will rate a movie they have not yet viewed based on their historic preferences. Providing an accurate and robust solution will have immense economic potential, with users of the system being exposed to content they would like to view or purchase - generating revenue and platform affinity.')
 			
+			break_h = """
+				<br>
+				<br>
+				<br>
+				"""
+	
+			st.markdown(break_h, unsafe_allow_html=True)
+
+			st.image("resources/imgs/data.png")
+   
 		if overview_selection == "Conclusion":
 			st.title('Conclusion')
 			break_h = """
@@ -169,18 +188,16 @@ def main():
 				<br>
 				"""
 			st.markdown(break_h, unsafe_allow_html=True)
-
-
-  
-		break_h = """
+			
+			break_h = """
 				<br>
 				<br>
 				<br>
 				"""
 	
-		st.markdown(break_h, unsafe_allow_html=True)
+			st.markdown(break_h, unsafe_allow_html=True)
 
-		st.image("resources/imgs/researcjh.png")
+			st.image("resources/imgs/dota.png")
 	
 	#About Us page
 	if page_selection == "About Us":
