@@ -138,33 +138,45 @@ def main():
 	
 	#Solution Overview Page
 	if page_selection == "Solution Overview":
-		overview_options = [ "Problem Statement", "Introduction", "Conclusion"]
+		overview_options = ["Problem Statement", "Introduction", "Conclusion"]
 		overview_selection = st.selectbox("Please select an option to get an overview of the project", overview_options)
   
-		if page_selection == "Problem Statement":
-			st.subheading("Problem Statement")
-		
-		if page_selection == "Introduction":
-			st.subheading("Introduction")
-			html_temp = """
-  			<div style="background-color:{};padding:10px;margin-bottom:10px;">
-  			<h3 style="color:black;text-align:center;>"Recommender systems are systems that are designed to recommend things to the user based on many different factors. These systems predict the most likely product that the user is most likely to purchase and are of interest. Companies like Netflix and Amazon use recommender systems to help their users to identify the correct product or movies for them. Recommender systems are an important class of machine learning algorithms that offer relevant suggestions to users. The suggested items are as relevant to the user as possible so that the user can engage with those items: YouTube videos, news articles, online products, movie and series recommendation. Items are ranked according to their relevancy, and the most relevant ones are shown to the user. The relevance is determined by the recommender system, mainly based on historical data. For example, If you've recently watched YouTube videos about elephants, then YouTube is going to start showing you many elephant videos with similar titles and themes. Recommender systems are generally divided into two main categories: collaborative filtering and content-based systems."</h3></div>
-	 		"""
-			st.markdown(html_temp, unsafe_allow_html=True)
-			
-		if page_selection == "Conclusion":
-			st.subheading("Conclusion")
+		if overview_selection == "Problem Statement":
+			st.title('Problem Statement')
+			st.write('Accurately predict unseen movie ratings gathered from thousands of users based on their historic preferences. The objective of this notebook is to construct a recommendation algorithm based on content and collaborative filtering, capable of accurately predicting how a user will rate a movie they have not watched yet based on their historical preference.')
    
-		st.image("resources/imgs/research.png")
+   
+		if overview_selection == "Introduction":
+			st.title('Introduction')
+			st.write('Recommender systems are systems that are designed to recommend things to the user based on many different factors. These systems predict the most likely product that the user is most likely to purchase and are of interest. Companies like Netflix and Amazon use recommender systems to help their users to identify the correct product or movies for them. Recommender systems are an important class of machine learning algorithms that offer relevant suggestions to users. The suggested items are as relevant to the user as possible so that the user can engage with those items: YouTube videos, news articles, online products, movie and series recommendation. Items are ranked according to their relevancy, and the most relevant ones are shown to the user. The relevance is determined by the recommender system, mainly based on historical data. For example, If you have recently watched YouTube videos about elephants, then YouTube is going to start showing you many elephant videos with similar titles and themes. Recommender systems are generally divided into two main categories: collaborative filtering and content-based systems. Both users and service providers have benefited from these kinds of systems. Intelligent algorithms can help viewers find great titles from tens of thousands of options. This notebook will construct a recommendation algorithm based on content and collaborative filtering, capable of accurately predicting how a user will rate a movie they have not yet viewed based on their historic preferences. Providing an accurate and robust solution will have immense economic potential, with users of the system being exposed to content they would like to view or purchase - generating revenue and platform affinity.')
+			
+		if overview_selection == "Conclusion":
+			st.title('Conclusion')
+
+  
+		break_h = """
+				<br>
+				<br>
+				<br>
+				<br>
+				"""
+	
+		st.markdown(break_h, unsafe_allow_html=True)
+
+		st.image("resources/imgs/researcjh.png")
 	
 	#About Us page
 	if page_selection == "About Us":
-		st.title("TEAM 4 is a group of six members from Explore Data Science Academy")
+		title = """
+				<h2 style="color:black;text-align:center;">TEAM Four is a group of data scientists from EDSA</h2>
+				"""
+		st.markdown(title, unsafe_allow_html=True)
+		
 		st.image("resources/imgs/team.png",use_column_width=True)
 	
 	if page_selection == "Insights":
 		#title_tag("Insights extracted from the data")
-		visual_options = [ "The top 15 movies", "Genres with the most number movies", "A count of films by directors", "Top 10 ratings", "Genre distribution", "Wordcloud", "Wordcloud analysis", "Model accuracy"]
+		visual_options = ["The top 15 movies", "Genres with the most number movies", "A count of films by directors", "Top 10 ratings", "Genre distribution", "Wordcloud", "Wordcloud analysis", "Model accuracy"]
 		visual_selection = st.selectbox("Choose Exploratory Data Analaysis Visuas Option", visual_options)
 
 		if visual_selection == "The top 15 movies":
@@ -196,18 +208,20 @@ def main():
    #Building out the business pitch
 	if page_selection == "Why Work With Us?":
 		title_about = """
-		<div style="background-color:#464e5f00; text-align:center;">
-		<h3 style="color:black;text-align:right;">We are a team of passionate data science students from Explore Data Science Academy.</h3>
+		<div style="background-color:#464e5f00; padding:10px;border-radius:10px;margin:10px;">
+		<h3 style="color:black;text-align:center;">We are a team of passionate data science students from EDSA.</h3>
 		"""
    
 		st.markdown(title_about, unsafe_allow_html=True)
   
-		st.write("Recommendation engines can mean big business for your organisation!")
+		st.write("Recommendation engines can mean big business for your organisation!. Estimates are that recommender systems can increase turnover by up to 30%")
+  
+  
 	#Building out the Contact Page
 	if page_selection == "Contact Us":
 		title = """
-		<div style="background-color:#464e5f00;padding:10px;border-radius:10px;margin:10px;">
-		<h3 style="color:black;text-align:right;">Lets get in touch for all your Machine Learning needs!</h3>
+		<div style="background-color:#464e5f00;padding:5px;border-radius:10px;margin:10px;">
+		<h3 style="color:black;text-align:center;">Lets get in touch for all your Machine Learning needs!</h3>
   		"""
 		
 		st.markdown(title, unsafe_allow_html=True)
