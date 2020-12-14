@@ -45,7 +45,7 @@ ratings_df.drop(['timestamp'], axis=1,inplace=True)
 movies = pd.read_csv('resources/data/df_new.csv',sep = ',',delimiter=',')
 # We make use of an SVD model trained on a subset of the MovieLens 10k dataset.
 print('... Loading the Pickled Model')
-model=pickle.load(open('resources/models/SVD++.pkl', 'rb'))
+model=pickle.load(open('resources/models/SVD.pkl', 'rb'))
 
 def prediction_item(item_id):
     """Map a given favourite movie to users within the
