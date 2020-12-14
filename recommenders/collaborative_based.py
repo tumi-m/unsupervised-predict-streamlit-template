@@ -32,6 +32,7 @@ import pandas as pd
 import numpy as np
 import pickle
 import copy
+import scipy as sp
 from surprise import Reader, Dataset
 from surprise import SVD, NormalPredictor, BaselineOnly, KNNBasic, NMF
 from sklearn.metrics.pairwise import cosine_similarity
@@ -41,8 +42,9 @@ from sklearn.feature_extraction.text import CountVectorizer
 movies_df = pd.read_csv('resources/data/movies.csv',sep = ',',delimiter=',')
 ratings_df = pd.read_csv('resources/data/ratings.csv')
 ratings_df.drop(['timestamp'], axis=1,inplace=True)
-
+movies = pd.read_csv('resources/data/df_new.csv',sep = ',',delimiter=',')
 # We make use of an SVD model trained on a subset of the MovieLens 10k dataset.
+print('... Loading the Pickled Model')
 model=pickle.load(open('resources/models/SVD++.pkl', 'rb'))
 
 def prediction_item(item_id):
@@ -61,7 +63,7 @@ def prediction_item(item_id):
 
     """
     # Data preprosessing
-    reader = Reader(rating_scale=(0, 5))
+    reader = Reader(rating_scale=(ratings_df['rating'].min(), ratings_df['rating'].max()))
     load_df = Dataset.load_from_df(ratings_df,reader)
     a_train = load_df.build_full_trainset()
 
@@ -89,10 +91,14 @@ def pred_movies(movie_list):
     id_store=[]
     # For each movie selected by a user of the app,
     # predict a corresponding user within the dataset with the highest rating
+    print('Iterating through the movie list')
     for i in movie_list:
+        print('Prediction for movie',i)
         predictions = prediction_item(item_id = i)
+        print('sorting the predictions')
         predictions.sort(key=lambda x: x.est, reverse=True)
         # Take the top 10 user id's from each movie with highest rankings
+        print('taking top 10 movies')
         for pred in predictions[:10]:
             id_store.append(pred.uid)
     # Return a list of user id's
@@ -117,32 +123,57 @@ def collab_model(movie_list,top_n=10):
         Titles of the top-n movie recommendations to the user.
 
     """
-
-    indices = pd.Series(movies_df['title'])
-    movie_ids = pred_movies(movie_list)
-    df_init_users = ratings_df[ratings_df['userId']==movie_ids[0]]
-    for i in movie_ids :
-        df_init_users=df_init_users.append(ratings_df[ratings_df['userId']==i])
-    # Getting the cosine similarity matrix
-    cosine_sim = cosine_similarity(np.array(df_init_users), np.array(df_init_users))
-    idx_1 = indices[indices == movie_list[0]].index[0]
-    idx_2 = indices[indices == movie_list[1]].index[0]
-    idx_3 = indices[indices == movie_list[2]].index[0]
-    # Creating a Series with the similarity scores in descending order
-    rank_1 = cosine_sim[idx_1]
-    rank_2 = cosine_sim[idx_2]
-    rank_3 = cosine_sim[idx_3]
-    # Calculating the scores
-    score_series_1 = pd.Series(rank_1).sort_values(ascending = False)
-    score_series_2 = pd.Series(rank_2).sort_values(ascending = False)
-    score_series_3 = pd.Series(rank_3).sort_values(ascending = False)
-     # Appending the names of movies
-    listings = score_series_1.append(score_series_2).append(score_series_3).sort_values(ascending = False)
-    recommended_movies = []
-    # Choose top 50
-    top_50_indexes = list(listings.iloc[1:50].index)
-    # Removing chosen movies
-    top_indexes = np.setdiff1d(top_50_indexes,[idx_1,idx_2,idx_3])
-    for i in top_indexes[:top_n]:
-        recommended_movies.append(list(movies_df['title'])[i])
+    #print('...merging tables')
+    #movies = pd.merge(ratings_df, movies_df,on='movieId',how='inner')
+    #movies = movies.sample(50000)
+    #Create pivot table
+    print('... Pivoting the merged table')
+    matrix = movies.pivot_table(index=['title'],columns=['userId'],values='rating')
+    print('... Normalizing the matrix')
+    matrix_norm = matrix.apply(lambda i: (i-np.mean(i))/(np.max(i)-np.min(i)), axis = 1)
+    # Fill missing values with zeros
+    print('...Fill missing values with zeros')
+    matrix_norm.fillna(0, inplace=True)
+    # Transpose the matrix
+    print('... Transpose the matrix')
+    matrix_norm = matrix_norm.T
+    matrix_norm = matrix_norm.loc[:,(matrix_norm !=0).any(axis=0)]
+    #Create a sparse matrix
+    print('... Create a sparse matrix')
+    matrix_sparse = sp.sparse.csr_matrix(matrix_norm.values)
+    # Calculate the cosine similarity matrix
+    print('Calculate the cosine similarity matrix')
+    similarity_score = cosine_similarity(matrix_sparse.T)
+    print('creating s simmar score data frame')
+    df_sim_movies = pd.DataFrame(similarity_score,index=matrix_norm.columns,columns=matrix_norm.columns)
+     
+    if movie_list[0] not in df_sim_movies.columns:
+        first_op = pd.DataFrame()
+    else:
+        first_op = pd.DataFrame(df_sim_movies[movie_list[0]])
+        first_op = first_op.reset_index()
+        first_op['similarity'] = first_op[movie_list[0]]
+        first_op = pd.DataFrame(first_op,columns=['title','similarity'])
+    if movie_list[1] not in df_sim_movies.columns:
+        second_op = pd.DataFrame()
+    else:
+        second_op = pd.DataFrame(df_sim_movies[movie_list[1]])
+        second_op = second_op.reset_index()
+        second_op['similarity'] = second_op[movie_list[1]]
+        second_op = pd.DataFrame(second_op,columns=['title','similarity'])
+    if movie_list[2] not in df_sim_movies.columns:
+        third_op = pd.DataFrame()
+    else:
+        third_op = pd.DataFrame(df_sim_movies[movie_list[2]])
+        third_op = third_op.reset_index()
+        third_op['similarity'] = third_op[movie_list[2]]
+        third_op = pd.DataFrame(third_op,columns=['title','similarity'])
+    options_movies = pd.concat([first_op,second_op,third_op])
+    if options_movies.empty:
+        reco = movies.groupby('title').mean().sort_values(by='rating', ascending=False).index[:top_n].to_list()
+        recommended_movies=random.sample(reco,top_n)
+    else:
+        recommended_movies = options_movies.sort_values('similarity',ascending=False)
+        recommended_movies = recommended_movies[~(recommended_movies['title'].isin(movie_list))]
+        recommended_movies=list(recommended_movies[0:top_n]['title'])
     return recommended_movies
